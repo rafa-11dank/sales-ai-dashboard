@@ -1,15 +1,14 @@
-function renderInsights(){
+function renderInsights() {
 
-  const data =
-  state.filteredData;
+  const data = state.filteredData;
 
-  if(!data.length) return;
+  if (!data.length) return;
 
-  renderSetupCards(data);
+  renderExecutiveSummary(data);
 
-  renderAnomalies(data);
+  renderBusinessCards(data);
 
-  renderNarrative(data);
+  renderRecommendations(data);
 
 }
 
@@ -225,3 +224,154 @@ function renderNarrative(data){
   `;
 
 }
+
+/* ==========================================
+   AI CHAT ENGINE
+========================================== */
+
+function initAIChat(){
+
+  const btn =
+  document.getElementById("aiSendBtn");
+
+  const input =
+  document.getElementById("aiInput");
+
+  const messages =
+  document.getElementById("aiMessages");
+
+  if(!btn) return;
+
+  btn.addEventListener(
+    "click",
+    async ()=>{
+
+      const question =
+      input.value.trim();
+
+      if(!question) return;
+
+      addMessage(
+        "user",
+        question
+      );
+
+      input.value = "";
+
+      addMessage(
+        "assistant",
+        "Analyzing data..."
+      );
+
+      try{
+
+        const response =
+        await fetch(
+          "/api/chat",
+          {
+            method:"POST",
+            headers:{
+              "Content-Type":
+              "application/json"
+            },
+            body:JSON.stringify({
+
+              question,
+
+              context:createBusinessContext()
+
+            })
+          }
+        );
+
+        const data =
+        await response.json();
+
+        messages.lastChild.remove();
+
+        addMessage(
+          "assistant",
+          data.answer
+        );
+
+      }catch(error){
+
+        messages.lastChild.remove();
+
+        addMessage(
+          "assistant",
+          "Failed to connect AI."
+        );
+
+        console.error(error);
+
+      }
+
+    }
+  );
+
+}
+
+function addMessage(role,text){
+
+  const box =
+  document.getElementById(
+    "aiMessages"
+  );
+
+  const div =
+  document.createElement("div");
+
+  div.className =
+  `chat-message ${role}`;
+
+  div.innerHTML = text;
+
+  box.appendChild(div);
+
+  box.scrollTop =
+  box.scrollHeight;
+
+}
+
+function createBusinessContext(){
+
+  const data =
+  state.filteredData;
+
+  const sales =
+  data.reduce(
+    (a,b)=>a+b.Sales,
+    0
+  );
+
+  const profit =
+  data.reduce(
+    (a,b)=>a+b.Profit,
+    0
+  );
+
+  return `
+
+  Sales:
+  ${sales}
+
+  Profit:
+  ${profit}
+
+  Rows:
+  ${data.length}
+
+  User is asking about
+  business performance.
+
+  `;
+
+}
+
+document.addEventListener(
+  "DOMContentLoaded",
+  ()=>{
+    initAIChat();
+  }
+);

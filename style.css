@@ -858,3 +858,27 @@ tbody tr:hover{
   }
 
 }
+
+.chat-message{
+
+  padding:14px 18px;
+  border-radius:16px;
+  margin-bottom:12px;
+  line-height:1.7;
+}
+
+.chat-message.user{
+
+  background:
+  rgba(99,102,241,.25);
+
+  margin-left:80px;
+}
+
+.chat-message.assistant{
+
+  background:
+  rgba(255,255,255,.05);
+
+  margin-right:80px;
+}
