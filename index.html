@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SalesAI Dashboard</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<header class="top-nav">
+
+  <div class="nav-logo">
+    <span class="logo-icon">◈</span>
+    <span class="logo-text">SalesAI</span>
+  </div>
+
+  <nav class="nav-center">
+
+    <a class="nav-item active" data-section="overview">
+      <span>⬡</span>
+      Overview
+    </a>
+
+    <a class="nav-item" data-section="charts">
+      <span>◫</span>
+      Analytics
+    </a>
+
+    <a class="nav-item" data-section="products">
+      <span>◈</span>
+      Products
+    </a>
+
+    <a class="nav-item" data-section="insights">
+      <span>✦</span>
+      AI Insights
+    </a>
+
+    <a class="nav-item" data-section="tableau">
+      <span>📊</span>
+      Tableau
+    </a>
+
+  </nav>
+
+  <div class="nav-status">
+    <span class="live-dot"></span>
+    Live Data
+  </div>
+
+</header>
+
+<!-- ================= FILTER BAR ================= -->
+
+<section class="filter-bar">
+
+  <div class="filter-group">
+    <label>Year</label>
+    <div id="filterYear" class="chip-group"></div>
+  </div>
+
+  <div class="filter-group">
+    <label>Category</label>
+    <div id="filterCategory" class="chip-group"></div>
+  </div>
+
+  <div class="filter-group">
+    <label>Territory</label>
+    <select id="filterTerritory" class="filter-select">
+      <option value="">All Territories</option>
+    </select>
+  </div>
+
+  <div class="filter-group">
+    <label>Segment</label>
+    <div id="filterSegment" class="chip-group"></div>
+  </div>
+
+  <div class="filter-group">
+    <label>SubCategory</label>
+    <div id="filterSubCategory" class="chip-group"></div>
+  </div>
+
+</section>
+
+<main class="dashboard-container">
+
+<!-- ================================================= -->
+<!-- OVERVIEW -->
+<!-- ================================================= -->
+
+<section class="section active" id="section-overview">
+
+  <div class="section-header">
+    <h1>Sales Performance Dashboard</h1>
+    <p>Adventure Works • 2001–2004</p>
+  </div>
+
+  <div class="kpi-grid" id="kpiGrid">
+
+    <div class="kpi-card">
+      <div class="kpi-label">Total Sales</div>
+      <div class="kpi-value" id="kpiSalesVal">—</div>
+      <div class="kpi-sub" id="kpiSalesSub">—</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-label">Total Profit</div>
+      <div class="kpi-value" id="kpiProfitVal">—</div>
+      <div class="kpi-sub" id="kpiProfitSub">—</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-label">Margin</div>
+      <div class="kpi-value" id="kpiMarginVal">—</div>
+      <div class="kpi-sub" id="kpiMarginSub">—</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-label">Units Sold</div>
+      <div class="kpi-value" id="kpiQtyVal">—</div>
+      <div class="kpi-sub" id="kpiQtySub">—</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-label">Orders</div>
+      <div class="kpi-value" id="kpiOrdersVal">—</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-label">Customers</div>
+      <div class="kpi-value" id="kpiCustomersVal">—</div>
+    </div>
+
+  </div>
+
+  <div class="chart-grid">
+
+    <div class="chart-card">
+      <h3>Sales & Profit Trend</h3>
+      <canvas id="chartTrend"></canvas>
+    </div>
+
+    <div class="chart-card chart-card-circle">
+        <h3>Sales by Category</h3>
+        <canvas id="chartCategory"></canvas>
+    </div>
+
+    <div class="chart-card">
+      <h3>Sales by Territory</h3>
+      <canvas id="chartTerritory"></canvas>
+    </div>
+
+    <div class="chart-card chart-card-circle">
+        <h3>Segment Distribution</h3>
+        <canvas id="chartSegment"></canvas>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ================================================= -->
+<!-- ANALYTICS -->
+<!-- ================================================= -->
+
+<section class="section analytics-grid" id="section-charts">
+
+  <div class="chart-card">
+    <h3>SubCategory Performance</h3>
+    <canvas id="chartSubCategory"></canvas>
+  </div>
+
+  <div class="chart-card">
+    <h3>Sales vs Profit</h3>
+    <canvas id="chartScatter"></canvas>
+  </div>
+
+  <div class="chart-card">
+    <h3>Profitability by Territory</h3>
+    <canvas id="chartTerritoryProfit"></canvas>
+  </div>
+
+</section>
+
+<!-- ================================================= -->
+<!-- PRODUCTS -->
+<!-- ================================================= -->
+
+<section class="section products-grid" id="section-products">
+
+  <div class="chart-card">
+    <h3>Top 10 Products by Profit</h3>
+    <canvas id="chartTopProfit"></canvas>
+  </div>
+
+  <div class="chart-card">
+    <h3>Top 10 Products by Sales</h3>
+    <canvas id="chartTopSales"></canvas>
+  </div>
+
+  <div class="table-card">
+
+    <div class="table-header">
+      <h3>Product Summary Table</h3>
+      <input id="tableSearch" placeholder="Search Product">
+    </div>
+
+    <table id="productTable">
+
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Product</th>
+          <th>Category</th>
+          <th>SubCategory</th>
+          <th>Sales</th>
+          <th>Profit</th>
+          <th>Margin</th>
+          <th>Qty</th>
+        </tr>
+      </thead>
+
+      <tbody id="productTableBody"></tbody>
+
+    </table>
+
+  </div>
+
+</section>
+
+<!-- ================================================= -->
+<!-- AI INSIGHTS -->
+<!-- ================================================= -->
+
+<section class="section" id="section-insights">
+
+  <div class="hook-banner">
+    <h1 id="hookTitle">AI Business Narrative</h1>
+    <p id="hookSub">
+      Analisis otomatis berdasarkan data aktif
+    </p>
+  </div>
+
+  <div id="setupGrid"></div>
+
+  <div id="conflictSummary"></div>
+
+  <div id="anomalyGrid"></div>
+
+  <div id="narasi-grid"></div>
+
+  <div class="ai-panel">
+
+    <div class="ai-messages" id="aiMessages"></div>
+
+    <div class="ai-input-row">
+
+      <textarea
+        id="aiInput"
+        placeholder="Tanyakan sesuatu..."
+      ></textarea>
+
+      <button id="aiSendBtn">
+        Kirim
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ================================================= -->
+<!-- TABLEAU -->
+<!-- ================================================= -->
+
+<section class="section" id="section-tableau">
+
+  <div class="tableau-header">
+    <h1>Tableau Dashboard</h1>
+  </div>
+
+  <img
+    src="assets/tableau-dashboard.png"
+    class="tableau-image">
+
+  <div class="tableau-btn-wrapper">
+
+    <a
+    href="https://public.tableau.com/views/dashboardeas23082010226/tableaudavis?:showVizHome=no&:embed=true&:toolbar=no"
+    target="_blank"
+      class="tableau-btn">
+
+      Open Interactive Tableau
+
+    </a>
+
+  </div>
+
+</section>
+
+</main>
+
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loader-spinner"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+<script src="js/state.js"></script>
+<script src="js/helpers.js"></script>
+<script src="js/data-loader.js"></script>
+<script src="js/filters.js"></script>
+<script src="js/kpi.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/navigation.js"></script>
+<script src="js/table.js"></script>
+<script src="js/ai-insights.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
